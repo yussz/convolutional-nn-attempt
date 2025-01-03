@@ -11,7 +11,7 @@ n_classes=3
 device = "cuda"
 learning_rate = 1e-2
 n_labels =3
-epochs =10
+epochs =21
 
 transform =  transforms.Compose([
     transforms.Resize((w,h)),
@@ -73,7 +73,7 @@ def train(dataloader):
         loss.backward()
         optimizer.step()
         optimizer.zero_grad()
-        print(f"batch [{batch}:{num_batches}], loss: {loss.item()}") if batch % 8 == 0  else None
+        #print(f"batch [{batch}:{num_batches}], loss: {loss.item()}") if batch % 8 == 0  else None
 
 @torch.no_grad()
 def test(dataloader):
@@ -91,11 +91,11 @@ def test(dataloader):
     print(f"Test Error: \n Accuracy: {(100*total_correct):>0.1f}%, Avg loss: {avg_loss:>8f} \n")
 
 def main():
-    for epoch in range(epochs+1):
-        print(f"epoch: {epoch} {'--' *20}")
+    for epoch in range(epochs):
+        print(f"epoch: {epoch+1} {'--' *20}")
         train(train_dataloader)
         test(test_dataloader)
 
 main()
-
+torch.save(model.state_dict(),"./model.pth")
    
